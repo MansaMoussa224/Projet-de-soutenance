@@ -9,17 +9,25 @@ const authRoutes = require('./auth');
 const spacesRoutes = require('./spaces');
 const productsRoutes = require('./products');
 const servicesRoutes = require('./services');
+
 const annoncesRoutes = require('./annonces');
+const commandesRoutes = require('./commandes');
+const clientsRoutes = require('./clients');
+const messagesRoutes = require('./messages');
 
+const menusRoutes = require('./menus');
 const statsRoutes = require('./stats');
-
-
 
 router.use('/auth', authRoutes);
 router.use('/spaces', spacesRoutes);
 router.use('/products', productsRoutes);
 router.use('/services', servicesRoutes);
 router.use('/annonces', annoncesRoutes);
+router.use('/commandes', commandesRoutes);
+router.use('/clients', clientsRoutes);
+router.use('/messages', messagesRoutes);
+
+router.use('/menus', menusRoutes);
 router.use('/stats', statsRoutes);
 
 module.exports = router;

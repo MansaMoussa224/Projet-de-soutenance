@@ -1,5 +1,6 @@
 // Statistiques détaillées pour un prestataire (commandes, services, clients, annonces)
 const Commande = require('../models/Commande');
+const Message = require('../models/Message');
 const getPrestataireStats = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -27,8 +28,10 @@ const getPrestataireStats = async (req, res) => {
       const clientsCount = await Commande.countDocuments({ service: s._id });
       return { service: s.name, clients: clientsCount };
     }));
-    // Clients distincts
-    const clients = await Commande.distinct('client', { prestataire: userId });
+  // Clients distincts (commandes ou messages)
+  const clientIdsCmd = await Commande.distinct('client', { prestataire: userId });
+  const clientIdsMsg = await Message.distinct('expediteur', { destinataire: userId });
+  const clients = [...new Set([...clientIdsCmd, ...clientIdsMsg].filter(Boolean))];
     // Annonces par mois
     const annoncesByMonth = await Annonce.aggregate([
       { $match: { user: userId } },
